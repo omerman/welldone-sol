@@ -1,15 +1,18 @@
 import React from 'react';
 import { AppBar } from './component/app-bar';
-import { CategoryList } from './component/category-list';
 import { Toolbar } from '@material-ui/core';
+import { StoreProvider } from './component/common/provider/store';
+import { ConnectCategoryList } from './component/category-list/connect';
 
 const App: React.FC = () => {
   return (
-    <div>
-      <AppBar />
-      <Toolbar />
-      <CategoryList list={[ { name: 'Category1' }, { name: 'Category2' } ]} />
-    </div>
+    <StoreProvider>
+      <div>
+        <AppBar />
+        <Toolbar />
+        <ConnectCategoryList />
+      </div>
+    </StoreProvider>
   );
 }
 

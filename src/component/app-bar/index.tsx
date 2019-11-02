@@ -1,5 +1,6 @@
 import React from "react";
-import { AppBar as MuiAppBar, Toolbar, Typography, Button, Box } from "@material-ui/core";
+import { AppBar as MuiAppBar, Toolbar, Typography, Box } from "@material-ui/core";
+import { ConnectCategoryListActions } from "./category-list-actions/connect";
 
 export const AppBar: React.FC = () => {
   return (
@@ -10,7 +11,7 @@ export const AppBar: React.FC = () => {
               AppBar
           </Typography>
         </Box>
-        <Button color="inherit">Create Category</Button>
+        <ConnectCategoryListActions />
       </Toolbar>
     </MuiAppBar>
   )
