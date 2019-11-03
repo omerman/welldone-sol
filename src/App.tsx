@@ -5,8 +5,8 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { AppBar } from './component/app-bar';
 import { Toolbar } from '@material-ui/core';
+import { ConnectAppBar } from './component/app-bar/connect';
 import { StoreProvider } from './component/common/provider/store';
 import { ConnectCategoryList } from './component/category-list/connect';
 import { ConnectEditCategory } from './component/category-editor/edit/connect';
@@ -17,10 +17,10 @@ const App: React.FC = () => {
     <StoreProvider>
       <Router>
         <div>
-          <AppBar />
+          <ConnectAppBar />
           <Toolbar />
           <Switch>
-            <Route path="/categories/:categoryId">
+            <Route path="/categories/edit/:categoryId">
               <ConnectEditCategory />
             </Route>
             <Route path="/categories/create">

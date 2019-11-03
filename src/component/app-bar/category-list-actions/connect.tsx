@@ -18,11 +18,11 @@ export const ConnectCategoryListActions: React.FC = () => {
         }}
         onEditCategory={() => {
           console.log('Routing to edit category');
-          history.push(`/categories/${store.categoriesManager.selectedId}`);
+          history.push(`/categories/edit/${store.categoriesManager.selectedId}`);
         }}
         onViewCategory={() => {
           console.log('Also routing to edit category');
-          history.push(`/categories/${store.categoriesManager.selectedId}`);
+          history.push(`/categories/edit/${store.categoriesManager.selectedId}`);
         }}
         onDeleteCategory={() => {
           console.log('Deleting Category');
