@@ -1,3 +1,4 @@
+import { toJS } from "mobx";
 import React, { useEffect } from "react";
 import { useObserver } from "mobx-react";
 import { CategoryList } from ".";
@@ -16,7 +17,7 @@ export const ConnectCategoryList: React.FC = () => {
   return useObserver(
     () => (
       <CategoryList
-        list={store.categoriesManager.get()}
+        list={toJS(store.categoriesManager.get())}
         onSelectCategory={store.categoriesManager.select}
         selectedCategoryId={store.categoriesManager.selectedId}
       />

@@ -1,25 +1,35 @@
-import { CategoryStore } from "./category";
+import uuid from 'uuid/v4';
 import { observable, action } from "mobx";
+import { CategoryStore } from "./category";
+import { ICategory } from "../entity-types/category";
+
+const LOCAL_STORAGE_KEY = 'categories';
 
 export class CategoriesManagerStore {
   @observable.ref
-  private categoriesCache: CategoryStore[] | undefined;
+  private categoriesCache: CategoryStore[];
 
   @observable
   selectedId: string | undefined;
 
-  get() {
-    if (!this.categoriesCache) {
-      this.categoriesCache = this.getFromLocalStorage();
-    }
+  constructor() {
+    this.categoriesCache = this.getFromLocalStorage();
+  }
 
+  get() {
     return this.categoriesCache;
+  }
+
+  findCategoryIndex(
+    id: string
+  ) {
+    return this.categoriesCache.findIndex(category => category.id === id);
   }
 
   findCategory(
     id: string
   ) {
-    return this.get().find(category => category.id === id);
+    return this.categoriesCache[this.findCategoryIndex(id)];
   }
 
   cloneCategory(
@@ -30,7 +40,27 @@ export class CategoriesManagerStore {
     if (!category) {
       throw new Error(`Category with id ${id} can't be found`);
     } else {
-      return new CategoryStore(`${id}2`, category.name);
+      return new CategoryStore(uuid(), category.name);
+    }
+  }
+
+  createEmptyCategory() {
+    return new CategoryStore(uuid(), '');
+  }
+
+  @action
+  deleteCategory = (
+    id: string,
+  ) => {
+    const categoryIndex = this.findCategoryIndex(id);
+
+    if (categoryIndex !== -1) {
+      if (this.selectedId === this.categoriesCache[categoryIndex].id) {
+        this.clearSelected();
+      }
+
+      this.categoriesCache.splice(categoryIndex, 1);
+      this.updateLocalStorage();
     }
   }
 
@@ -45,7 +75,14 @@ export class CategoriesManagerStore {
       throw new Error(`Category with id ${id} can't be found`);
     } else {
       category.setName(name);
+      this.updateLocalStorage();
     }
+  }
+
+  @action
+  addCategory = (category: CategoryStore) => {
+    this.categoriesCache.push(category);
+    this.updateLocalStorage();
   }
 
   @action
@@ -58,16 +95,27 @@ export class CategoriesManagerStore {
     this.selectedId = undefined;
   }
 
-  private getFromLocalStorage() {
-    const lsCategoriesStr = window.localStorage.getItem('categories');
+  private getFromLocalStorage(): CategoryStore[] {
+    const lsCategoriesStr = window.localStorage.getItem(LOCAL_STORAGE_KEY);
 
     if (lsCategoriesStr) {
-      return JSON.parse(lsCategoriesStr) as CategoryStore[];
+      const rawList = JSON.parse(lsCategoriesStr) as ICategory[];
+      return rawList.map(
+        categorySeed => new CategoryStore(categorySeed.id, categorySeed.name),
+      );
     } else {
-      return [
-        new CategoryStore('1', 'Category1'),
-        new CategoryStore('2', 'Category2'),
-      ];
+      return [];
     }
+  }
+
+  private updateLocalStorage() {
+    const { categoriesCache = [] } = this;
+
+    window.localStorage.setItem(
+      LOCAL_STORAGE_KEY,
+      JSON.stringify(
+        categoriesCache.map(item => item.toSeed())
+      )
+    );
   }
 }

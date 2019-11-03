@@ -4,13 +4,13 @@ import {
   Switch,
   Route,
   Redirect,
-  Link
 } from "react-router-dom";
 import { AppBar } from './component/app-bar';
 import { Toolbar } from '@material-ui/core';
 import { StoreProvider } from './component/common/provider/store';
 import { ConnectCategoryList } from './component/category-list/connect';
-import { ConnectCategoryEditor } from './component/category-editor/connect';
+import { ConnectEditCategory } from './component/category-editor/edit/connect';
+import { ConnectAddCategory } from './component/category-editor/add/connect';
 
 const App: React.FC = () => {
   return (
@@ -21,7 +21,10 @@ const App: React.FC = () => {
           <Toolbar />
           <Switch>
             <Route path="/categories/:categoryId">
-              <ConnectCategoryEditor />
+              <ConnectEditCategory />
+            </Route>
+            <Route path="/categories/create">
+              <ConnectAddCategory />
             </Route>
             <Route path="/categories">
               <ConnectCategoryList />

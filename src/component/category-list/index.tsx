@@ -1,5 +1,5 @@
 import React from "react"
-import { Typography, Box, Card } from "@material-ui/core"
+import { Typography, Box, Card, Button } from "@material-ui/core"
 
 export interface ICategoryListProps {
   list: Array<{ id: string, name: string }>,
@@ -19,20 +19,22 @@ export const CategoryList: React.FC<ICategoryListProps> = ({
           ({ id, name }) => (
             <Box key={id} margin={2}>
               <Card
-                elevation={selectedCategoryId === id ? 5 : 1}
-                onClick={() => onSelectCategory(id)}
+                elevation={selectedCategoryId === id ? 12 : 1}
               >
-                <Box
-                  height={140}
-                  width={140}
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Typography variant="h6" color="primary">
-                    {name}
-                  </Typography>
-                </Box>
+                <Button onClick={() => onSelectCategory(id)}>
+                  <Box
+                    height={140}
+                    paddingLeft={8}
+                    paddingRight={8}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Typography variant="h6" color="primary">
+                      {name}
+                    </Typography>
+                  </Box>
+                </Button>
               </Card>
             </Box>
           ),

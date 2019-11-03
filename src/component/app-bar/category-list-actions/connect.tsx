@@ -13,17 +13,24 @@ export const ConnectCategoryListActions: React.FC = () => {
       <CategoryListActions
         selectedCategoryId={store.categoriesManager.selectedId}
         onCreateCategory={() => {
-          console.log('Create Category');
+          console.log('Routing to add category');
+          history.push('/categories/create');
         }}
         onEditCategory={() => {
           console.log('Routing to edit category');
           history.push(`/categories/${store.categoriesManager.selectedId}`);
         }}
         onViewCategory={() => {
-          console.log('View Category');
+          console.log('Also routing to edit category');
+          history.push(`/categories/${store.categoriesManager.selectedId}`);
         }}
         onDeleteCategory={() => {
-          console.log('Delete Category');
+          console.log('Deleting Category');
+          const { selectedId } = store.categoriesManager;
+
+          if (selectedId) {
+            store.categoriesManager.deleteCategory(selectedId);
+          }
         }}
       />
     )
