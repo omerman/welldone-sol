@@ -11,6 +11,7 @@ import { StoreProvider } from '../common/provider/store';
 import { ConnectCategoryList } from '../category-list/connect';
 import { ConnectEditCategory } from '../category-editor/edit/connect';
 import { ConnectAddCategory } from '../category-editor/add/connect';
+import { ConnectLocationList } from '../location-list/connect';
 import { ConnectTabBar } from '../tab-bar/connect';
 import { StyledAppContentWrap } from './styled/content-wrap';
 import { StyledRouteWrap } from './styled/route-wrap';
@@ -33,6 +34,9 @@ export const App: React.FC = () => {
               </Route>
               <Route path="/categories">
                 <ConnectCategoryList />
+              </Route>
+              <Route path="/locations">
+                <ConnectLocationList />
               </Route>
               <Route path="/">
                 <Redirect to="/categories" />
