@@ -12,6 +12,8 @@ import { ConnectCategoryList } from '../category-list/connect';
 import { ConnectEditCategory } from '../category-editor/edit/connect';
 import { ConnectAddCategory } from '../category-editor/add/connect';
 import { ConnectLocationList } from '../location-list/connect';
+import { ConnectEditLocation } from '../location-editor/edit/connect';
+import { ConnectAddLocation } from '../location-editor/add/connect';
 import { ConnectTabBar } from '../tab-bar/connect';
 import { StyledAppContentWrap } from './styled/content-wrap';
 import { StyledRouteWrap } from './styled/route-wrap';
@@ -34,6 +36,12 @@ export const App: React.FC = () => {
               </Route>
               <Route path="/categories">
                 <ConnectCategoryList />
+              </Route>
+              <Route path="/locations/edit/:locationId">
+                <ConnectEditLocation />
+              </Route>
+              <Route path="/locations/create">
+                <ConnectAddLocation />
               </Route>
               <Route path="/locations">
                 <ConnectLocationList />
