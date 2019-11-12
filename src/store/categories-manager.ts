@@ -6,7 +6,7 @@ import { ICategory } from "../entity-types/category";
 const LOCAL_STORAGE_KEY = 'categories';
 
 export class CategoriesManagerStore {
-  @observable.ref
+  @observable
   private categoriesCache: CategoryStore[];
 
   @observable
