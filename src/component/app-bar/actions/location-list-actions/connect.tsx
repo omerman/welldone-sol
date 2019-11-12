@@ -19,19 +19,19 @@ export const ConnectLocationListActions: React.FC = () => {
           }}
           onEditLocation={() => {
             console.log('Routing to edit location');
-            // history.push(`/locations/edit/${store.categoriesManager.selectedId}`);
+            history.push(`/locations/edit/${store.locationsManager.selectedId}`);
           }}
           onViewLocation={() => {
             console.log('Also routing to edit location');
-            // history.push(`/locations/edit/${store.categoriesManager.selectedId}`);
+            history.push(`/locations/edit/${store.locationsManager.selectedId}`);
           }}
           onDeleteLocation={() => {
             console.log('Deleting location');
-            // const { selectedId } = store.categoriesManager;
+            const { selectedId } = store.locationsManager;
 
-            // if (selectedId) {
-            //   store.categoriesManager.deleteCategory(selectedId);
-            // }
+            if (selectedId) {
+              store.locationsManager.deleteLocation(selectedId);
+            }
           }}
         />
       );

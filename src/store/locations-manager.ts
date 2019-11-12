@@ -7,7 +7,7 @@ import { Store } from '.';
 const LOCAL_STORAGE_KEY = 'locations';
 
 export class LocationsManagerStore {
-  @observable.ref
+  @observable
   private locationsCache: LocationStore[];
 
   @observable
