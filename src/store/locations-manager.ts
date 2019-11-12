@@ -104,7 +104,7 @@ export class LocationsManagerStore {
     if (lsLocationsStr) {
       const rawList = JSON.parse(lsLocationsStr) as ILocation[];
       return rawList.map(
-        locationSeed => new LocationStore(locationSeed.id, locationSeed.name),
+        locationSeed => new LocationStore(locationSeed.id, locationSeed.name, locationSeed.categoryId),
       );
     } else {
       return [];
