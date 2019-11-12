@@ -6,16 +6,16 @@ import { useStore } from "../../../common/provider/store";
 
 export const ConnectLocationListActions: React.FC = () => {
   const store = useStore();
-  // const history = useHistory();
+  const history = useHistory();
 
   return useObserver(
     () => {
       return (
         <LocationListActions
-          selectedLocationId={store.categoriesManager.selectedId}
+          selectedLocationId={store.locationsManager.selectedId}
           onCreateLocation={() => {
             console.log('Routing to add location');
-            // history.push('/locations/create');
+            history.push('/locations/create');
           }}
           onEditLocation={() => {
             console.log('Routing to edit location');

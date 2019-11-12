@@ -107,9 +107,7 @@ export class LocationsManagerStore {
         locationSeed => new LocationStore(locationSeed.id, locationSeed.name),
       );
     } else {
-      const locationTemp = new LocationStore('123', 'TODO Location');
-      locationTemp.setCategoryId(this.store.categoriesManager.get()[0].id);
-      return [locationTemp];
+      return [];
     }
   }
 
