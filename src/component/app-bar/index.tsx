@@ -1,9 +1,9 @@
 import React from "react";
 import { AppBar as MuiAppBar, Toolbar, Typography, Box } from "@material-ui/core";
-import { ConnectCategoryListActions } from "./category-list-actions/connect";
+import { ConnectAppBarActions } from "./actions/connect";
 
 export interface IAppBarProps {
-  title: string
+  title: string,
 }
 
 export const AppBar: React.FC<IAppBarProps> = ({
@@ -17,7 +17,7 @@ export const AppBar: React.FC<IAppBarProps> = ({
               {title}
           </Typography>
         </Box>
-        <ConnectCategoryListActions />
+        <ConnectAppBarActions />
       </Toolbar>
     </MuiAppBar>
   )

@@ -7,12 +7,16 @@ export const ConnectAppBar: React.FC = () => {
 
   let title = '';
 
-  if (location.pathname === '/categories') {
-    title = 'Categories';
-  } else if (location.pathname === '/categories/create') {
-    title = 'Add Category';
-  } else if (location.pathname.startsWith('/categories/edit/')) {
-    title = 'Edit Category'
+  if (location.pathname.startsWith('/categories')) {
+    if (location.pathname === '/categories/create') {
+      title = 'Add Category';
+    } else if (location.pathname.startsWith('/categories/edit/')) {
+      title = 'Edit Category'
+    } else {
+      title = 'Categories';
+    }
+  } else {
+    title = 'Locations';
   }
 
   return <AppBar title={title} />;
