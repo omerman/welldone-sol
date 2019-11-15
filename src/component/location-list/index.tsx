@@ -1,23 +1,36 @@
 import React from "react"
-import { Typography, Box, Card, Button, Theme } from "@material-ui/core"
+import SortByAlpha from "@material-ui/icons/SortByAlpha";
+import { Typography, Box, Card, Button, Theme, IconButton } from "@material-ui/core"
 import { StyledSectionHeader } from "./styled/category-header"
 import { useTheme } from "@material-ui/styles"
 
 export interface ILocationListProps {
   categoryList: Array<{ name: string, locationList: Array<{ id: string, name: string, }> }>,
-  onSelectLocation: (id: string) => void,
   selectedLocationId: string | undefined,
+  onSelectLocation: (id: string) => void,
+  isSortedAlpha: boolean,
+  onToggleSortedAlpha: () => void,
 }
 
 export const LocationList: React.FC<ILocationListProps> = ({
   categoryList,
   selectedLocationId,
   onSelectLocation,
+  isSortedAlpha,
+  onToggleSortedAlpha,
 }) => {
   const theme = useTheme<Theme>();
 
   return (
     <div>
+      <Box display="flex" marginLeft={1}>
+        <IconButton
+          color={isSortedAlpha ? 'primary' : undefined}
+          onClick={onToggleSortedAlpha}
+        >
+          <SortByAlpha />
+        </IconButton>
+      </Box>
       {
         categoryList.map(
           ({ name: categoryName, locationList }, categoryIndex) => (
@@ -31,7 +44,7 @@ export const LocationList: React.FC<ILocationListProps> = ({
                 {
                   locationList.map(
                     ({ id, name: locationName }) => (
-                      <Box key={id}>
+                      <Box key={id} marginRight={2}>
                         <Card
                           elevation={selectedLocationId === id ? 12 : 1}
                         >
