@@ -1,48 +1,64 @@
 import React from "react"
-import { Typography, Box, Card, Button } from "@material-ui/core"
+import { Typography, Box, Card, Button, Theme } from "@material-ui/core"
+import { StyledSectionHeader } from "./styled/category-header"
+import { useTheme } from "@material-ui/styles"
 
 export interface ILocationListProps {
-  list: Array<{ id: string, name: string, categoryName: string }>,
+  categoryList: Array<{ name: string, locationList: Array<{ id: string, name: string, }> }>,
   onSelectLocation: (id: string) => void,
   selectedLocationId: string | undefined,
 }
 
 export const LocationList: React.FC<ILocationListProps> = ({
-  list,
+  categoryList,
   selectedLocationId,
   onSelectLocation,
 }) => {
+  const theme = useTheme<Theme>();
+
   return (
-    <Box display="flex">
+    <div>
       {
-        list.map(
-          ({ id, name, categoryName }) => (
-            <Box key={id} margin={2}>
-              <Card
-                elevation={selectedLocationId === id ? 12 : 1}
-              >
-                <Button onClick={() => onSelectLocation(id)}>
-                  <Box
-                    height={140}
-                    paddingLeft={8}
-                    paddingRight={8}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <Typography variant="h5" color="primary">
-                      {name}
-                    </Typography>
-                    <Typography variant="h6" color="primary">
-                      {categoryName}
-                    </Typography>
-                  </Box>
-                </Button>
-              </Card>
-            </Box>
+        categoryList.map(
+          ({ name: categoryName, locationList }, categoryIndex) => (
+            <React.Fragment key={categoryIndex}>
+              <StyledSectionHeader theme={theme}>
+                <Typography variant="h6">
+                  {categoryName}
+                </Typography>
+              </StyledSectionHeader>
+              <Box display="flex" marginLeft={2}>
+                {
+                  locationList.map(
+                    ({ id, name: locationName }) => (
+                      <Box key={id}>
+                        <Card
+                          elevation={selectedLocationId === id ? 12 : 1}
+                        >
+                          <Button onClick={() => onSelectLocation(id)}>
+                            <Box
+                              height={140}
+                              paddingLeft={8}
+                              paddingRight={8}
+                              display="flex"
+                              justifyContent="center"
+                              alignItems="center"
+                            >
+                              <Typography variant="h5" color="primary">
+                                {locationName}
+                              </Typography>
+                            </Box>
+                          </Button>
+                        </Card>
+                      </Box>
+                    ),
+                  )
+                }
+              </Box>
+            </React.Fragment>
           ),
         )
       }
-    </Box>
-  )
+    </div>
+  );
 }

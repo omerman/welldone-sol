@@ -17,12 +17,30 @@ export const ConnectLocationList: React.FC = () => {
     onSelectLocation(id: string) {
       store.locationsManager.select(id);
     },
-    get list() {
-      return store.locationsManager.get().map(location => ({
-        id: location.id,
-        name: location.name,
-        categoryName: store.categoriesManager.findCategory(location.categoryId as string).name,
-      }))
+    get categoryList() {
+      return (
+        store.categoriesManager
+          .get()
+          .map(
+            category => {
+              const locationList = (
+                store.locationsManager
+                  .get()
+                  .filter(location => location.categoryId === category.id)
+                  .map(location => ({
+                    id: location.id,
+                    name: location.name,
+                  }))
+              );
+
+              return {
+                name: category.name,
+                locationList,
+              }
+            }
+          )
+          .filter(list => list.locationList.length > 0)
+      );
     },
     get selectedLocationId() {
       return store.locationsManager.selectedId;
@@ -32,7 +50,7 @@ export const ConnectLocationList: React.FC = () => {
   return useObserver(
     () => (
       <LocationList
-        list={localStore.list}
+        categoryList={localStore.categoryList}
         onSelectLocation={localStore.onSelectLocation}
         selectedLocationId={localStore.selectedLocationId}
       />
