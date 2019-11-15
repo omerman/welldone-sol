@@ -5,10 +5,14 @@ export class LocationListStore {
   @observable
   isSortedAlpha: boolean;
 
+  @observable
+  private hiddenCategories: string[];
+
   constructor(
     private readonly store: Store,
   ) {
     this.isSortedAlpha = false;
+    this.hiddenCategories = [];
   }
 
   @action
@@ -21,12 +25,20 @@ export class LocationListStore {
     this.isSortedAlpha = !this.isSortedAlpha;
   }
 
+  @action
+  toggleCategoryFilterItem = (categoryId: string) => {
+    const hiddenCategoryIndex = this.hiddenCategories.indexOf(categoryId);
+    if (hiddenCategoryIndex !== -1) {
+      this.hiddenCategories.splice(hiddenCategoryIndex, 1);
+    } else {
+      this.hiddenCategories.push(categoryId);
+    }
+  }
+
   @computed
   get categoryList() {
     return (
-      this.store.categoriesManager
-        .get()
-        .map(
+      this.categoriesWithLocations.map(
           category => {
             const locationList = (
               this.store.locationsManager
@@ -49,12 +61,12 @@ export class LocationListStore {
             );
 
             return {
+              id: category.id,
               name: category.name,
               locationList,
             }
           }
         )
-        .filter(list => list.locationList.length > 0)
         .sort(
           (categoryA, categoryB) => {
             if (this.isSortedAlpha) {
@@ -64,11 +76,35 @@ export class LocationListStore {
             }
           }
         )
+        .filter(category => {
+          return this.hiddenCategories.indexOf(category.id) === -1;
+        })
     );
   }
 
   @computed
   get selectedLocationId() {
     return this.store.locationsManager.selectedId;
+  }
+
+  @computed
+  get categoriesFilter() {
+    return this.categoriesWithLocations.map(
+      category => ({
+        id: category.id,
+        label: category.name,
+        selected: this.hiddenCategories.indexOf(category.id) === -1,
+      }),
+    );
+  }
+
+  @computed
+  private get categoriesWithLocations() {
+    const locationList = this.store.locationsManager.get();
+    return (
+      this.store.categoriesManager
+        .get()
+        .filter(category => locationList.find(location => location.categoryId === category.id))
+    )
   }
 }
