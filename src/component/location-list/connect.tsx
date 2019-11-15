@@ -14,6 +14,7 @@ export const ConnectLocationList: React.FC = () => {
   );
 
   const localStore = useLocalStore(() => ({
+    isSortedAlpha: false,
     onSelectLocation(id: string) {
       store.locationsManager.select(id);
     },
@@ -27,10 +28,20 @@ export const ConnectLocationList: React.FC = () => {
                 store.locationsManager
                   .get()
                   .filter(location => location.categoryId === category.id)
-                  .map(location => ({
-                    id: location.id,
-                    name: location.name,
-                  }))
+                  .map(
+                    location => ({
+                      id: location.id,
+                      name: location.name,
+                    }),
+                  ).sort(
+                    (locationA, locationB) => {
+                      if (this.isSortedAlpha) {
+                        return locationA.name.toLowerCase() > locationB.name.toLowerCase() ? 1 : -1;
+                      } else {
+                        return 0;
+                      }
+                    }
+                  )
               );
 
               return {
@@ -40,10 +51,22 @@ export const ConnectLocationList: React.FC = () => {
             }
           )
           .filter(list => list.locationList.length > 0)
+          .sort(
+            (categoryA, categoryB) => {
+              if (this.isSortedAlpha) {
+                return categoryA.name.toLowerCase() > categoryB.name.toLowerCase() ? 1 : -1;
+              } else {
+                return 0;
+              }
+            }
+          )
       );
     },
     get selectedLocationId() {
       return store.locationsManager.selectedId;
+    },
+    toggleSortedAlpha() {
+      this.isSortedAlpha = !this.isSortedAlpha;
     },
   }));
 
@@ -53,6 +76,8 @@ export const ConnectLocationList: React.FC = () => {
         categoryList={localStore.categoryList}
         onSelectLocation={localStore.onSelectLocation}
         selectedLocationId={localStore.selectedLocationId}
+        isSortedAlpha={localStore.isSortedAlpha}
+        onToggleSortedAlpha={localStore.toggleSortedAlpha}
       />
     )
   );
