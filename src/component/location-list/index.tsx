@@ -3,6 +3,7 @@ import SortByAlpha from "@material-ui/icons/SortByAlpha";
 import { Typography, Box, Card, Button, Theme, IconButton } from "@material-ui/core"
 import { StyledSectionHeader } from "./styled/category-header"
 import { useTheme } from "@material-ui/styles"
+import { LocationListCategoryFilter, ILocationListCategoryFilterProps } from "./filter";
 
 export interface ILocationListProps {
   categoryList: Array<{ name: string, locationList: Array<{ id: string, name: string, }> }>,
@@ -10,6 +11,7 @@ export interface ILocationListProps {
   onSelectLocation: (id: string) => void,
   isSortedAlpha: boolean,
   onToggleSortedAlpha: () => void,
+  categoriesFilter: ILocationListCategoryFilterProps,
 }
 
 export const LocationList: React.FC<ILocationListProps> = ({
@@ -18,6 +20,7 @@ export const LocationList: React.FC<ILocationListProps> = ({
   onSelectLocation,
   isSortedAlpha,
   onToggleSortedAlpha,
+  categoriesFilter: categoryFilter,
 }) => {
   const theme = useTheme<Theme>();
 
@@ -30,6 +33,7 @@ export const LocationList: React.FC<ILocationListProps> = ({
         >
           <SortByAlpha />
         </IconButton>
+        <LocationListCategoryFilter {...categoryFilter} />
       </Box>
       {
         categoryList.map(

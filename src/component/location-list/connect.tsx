@@ -24,6 +24,10 @@ export const ConnectLocationList: React.FC = () => {
         selectedLocationId={localStore.selectedLocationId}
         isSortedAlpha={localStore.isSortedAlpha}
         onToggleSortedAlpha={localStore.toggleSortedAlpha}
+        categoriesFilter={{
+          filters: localStore.categoriesFilter,
+          onToggleFilter: localStore.toggleCategoryFilterItem,
+        }}
       />
     )
   );
