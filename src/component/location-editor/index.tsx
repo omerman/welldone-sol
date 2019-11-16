@@ -66,7 +66,7 @@ export const LocationEditor: React.FC<ILocationEditorProps> = ({
             lat: place.coordinates ? place.coordinates.lat : 50,
             lng: place.coordinates ? place.coordinates.lng : 30,
           }}
-          defaultZoom={15}
+          defaultZoom={10}
         >
           {place.coordinates ? <MapMarker {...place.coordinates} /> : null}
         </GoogleMapReact>

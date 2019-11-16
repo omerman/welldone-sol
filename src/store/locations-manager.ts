@@ -43,7 +43,12 @@ export class LocationsManagerStore {
     if (!location) {
       throw new Error(`Location with id ${id} can't be found`);
     } else {
-      return new LocationStore(uuid(), location.name, location.placeId);
+      return new LocationStore(
+        uuid(),
+        location.name,
+        location.categoryId,
+        location.placeId,
+      );
     }
   }
 
