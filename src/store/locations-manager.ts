@@ -43,7 +43,7 @@ export class LocationsManagerStore {
     if (!location) {
       throw new Error(`Location with id ${id} can't be found`);
     } else {
-      return new LocationStore(uuid(), location.name);
+      return new LocationStore(uuid(), location.name, location.placeId);
     }
   }
 
@@ -107,7 +107,7 @@ export class LocationsManagerStore {
     if (lsLocationsStr) {
       const rawList = JSON.parse(lsLocationsStr) as ILocation[];
       return rawList.map(
-        locationSeed => new LocationStore(locationSeed.id, locationSeed.name, locationSeed.categoryId),
+        locationSeed => new LocationStore(locationSeed.id, locationSeed.name, locationSeed.categoryId, locationSeed.placeId),
       );
     } else {
       return [];

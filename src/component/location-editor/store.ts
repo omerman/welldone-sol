@@ -43,6 +43,7 @@ export class LocationEditorStore {
       name: this.location.name,
       onChange: this.location.setPlace,
       onClear: this.location.clearPlace,
+      coordinates: this.location.coordinates,
     };
   }
 

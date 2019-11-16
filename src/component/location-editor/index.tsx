@@ -12,6 +12,7 @@ export interface ILocationEditorProps {
       placeId: string,
     ) => void,
     onClear: () => void,
+    coordinates: { lat: number, lng: number } | undefined
   },
   categoryList: {
     data: Array<{ name: string, id: string }>,
@@ -62,12 +63,12 @@ export const LocationEditor: React.FC<ILocationEditorProps> = ({
       <Grid item xs={12} lg={6} xl={8} style={{ height: 500 }}>
         <GoogleMapReact
           center={{
-            lat: 59.95,
-            lng: 30.33,
+            lat: place.coordinates ? place.coordinates.lat : 50,
+            lng: place.coordinates ? place.coordinates.lng : 30,
           }}
           defaultZoom={15}
         >
-          <MapMarker lat={59.95} lng={30.33} />
+          {place.coordinates ? <MapMarker {...place.coordinates} /> : null}
         </GoogleMapReact>
       </Grid>
       <Grid item container alignContent="center" xs={2}>
