@@ -8,11 +8,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import parse from 'autosuggest-highlight/parse';
 import throttle from "lodash.throttle";
 import { PlaceType } from "./types";
-// import { loadScript } from "../../../common/util/load-script";
 import { mockPlacePredictions } from "./mock";
-
-// const autocompleteService = { current: null };
-// const mapsScriptId = 'google-maps';
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -34,22 +30,9 @@ export const PlaceAutoComplete: React.FC<IPlaceAutoCompleteProps> = ({
   value, onChange, onClear,
 }) => {
   const classes = useStyles();
-  const [inputValue, setInputValue] = React.useState('');
+  const [inputValue, setInputValue] = React.useState<string | undefined>(undefined);
   const [options, setOptions] = React.useState<PlaceType[]>([]);
-
-  // Google maps api demanded I enter billing.. so using mock data.
-  // const loaded = React.useRef(false);
-
-  // if (!loaded.current) {
-  //   if (!document.querySelector(`#${mapsScriptId}`)) {
-  //     loadScript(
-  //       'https://maps.googleapis.com/maps/api/js?key=AIzaSyA5FOC9bUulwBrXowOndMY1d2Ff4Ox7-dw&libraries=places',
-  //       mapsScriptId,
-  //     );
-  //   }
-
-  //   loaded.current = true;
-  // }
+  const textFieldRef = React.useRef<HTMLDivElement>(null);
 
   const handleInputChange = (v: any) => {
     setInputValue(v);
@@ -66,15 +49,7 @@ export const PlaceAutoComplete: React.FC<IPlaceAutoCompleteProps> = ({
   React.useEffect(() => {
     let active = true;
 
-    // if (!autocompleteService.current && (window as any).google) {
-    //   autocompleteService.current = new (window as any).google.maps.places.AutocompleteService();
-    // }
-
-    // if (!autocompleteService.current) {
-    //   return undefined;
-    // }
-
-    if (inputValue === '') {
+    if (!inputValue) {
       setOptions([]);
       return undefined;
     }
@@ -101,7 +76,14 @@ export const PlaceAutoComplete: React.FC<IPlaceAutoCompleteProps> = ({
       includeInputInList
       disableOpenOnFocus
       onInputChange={(e, nextInputValue) => {
-        handleInputChange(nextInputValue);
+        if (e && textFieldRef.current && textFieldRef.current.contains(e.target as any)) {
+          if (e.nativeEvent.type === 'input' && nextInputValue === '') {
+            onClear();
+            handleInputChange('');
+          } else {
+            handleInputChange(nextInputValue);
+          }
+        }
       }}
       onChange={(e, nextValue: PlaceType | undefined) => {
         if (nextValue) {
@@ -109,15 +91,17 @@ export const PlaceAutoComplete: React.FC<IPlaceAutoCompleteProps> = ({
             nextValue.description,
             nextValue.id,
           );
+          handleInputChange(nextValue.description);
         } else {
+          handleInputChange('');
           onClear();
         }
-        setInputValue('');
       }}
-      renderInput={params => {
-        return (<TextField
+      renderInput={params => (
+        <TextField
           {...params}
-          label="Add a location"
+          ref={textFieldRef}
+          label="Location"
           variant="outlined"
           margin="dense"
           fullWidth
@@ -130,8 +114,8 @@ export const PlaceAutoComplete: React.FC<IPlaceAutoCompleteProps> = ({
             ...params.InputLabelProps,
             shrink: Boolean(value || inputValue)
           }}
-        />);
-      }}
+        />
+      )}
       renderOption={option => {
         const matches = option.structured_formatting.main_text_matched_substrings;
         const parts = parse(
