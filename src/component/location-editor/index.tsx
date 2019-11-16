@@ -76,6 +76,7 @@ export const LocationEditor: React.FC<ILocationEditorProps> = ({
           <Button
             variant="contained"
             onClick={onSave}
+            disabled={!(place.name && place.coordinates && categoryList.selectedCategoryId)}
           >
             Save
           </Button>
