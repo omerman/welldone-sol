@@ -8,6 +8,9 @@ export class LocationStore {
   name: string;
 
   @observable
+  placeId: string | undefined;
+
+  @observable
   categoryId: string | undefined;
 
   constructor(
@@ -21,8 +24,18 @@ export class LocationStore {
   }
 
   @action
-  setName = (name: string) => {
+  setPlace = (
+    name: string,
+    placeId: string,
+  ) => {
     this.name = name;
+    this.placeId = placeId;
+  }
+
+  @action
+  clearPlace = () => {
+    this.name = '';
+    this.placeId = undefined;
   }
 
   @action
@@ -35,6 +48,7 @@ export class LocationStore {
       id: this.id,
       name: this.name,
       categoryId: this.categoryId as string,
+      placeId: this.placeId as string,
     };
   }
 }
