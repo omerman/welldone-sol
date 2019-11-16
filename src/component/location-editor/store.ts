@@ -19,6 +19,7 @@ export class LocationEditorStore {
         {
           name: this.location.name,
           placeId: this.location.placeId as string,
+          categoryId: this.location.categoryId as string,
         },
       );
     } else {

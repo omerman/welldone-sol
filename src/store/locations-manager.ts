@@ -78,6 +78,7 @@ export class LocationsManagerStore {
     data: {
       name: string,
       placeId: string,
+      categoryId: string,
     }
   ) => {
     const location = this.findLocation(id);
@@ -86,6 +87,7 @@ export class LocationsManagerStore {
       throw new Error(`Location with id ${id} can't be found`);
     } else {
       location.setPlace(data.name, data.placeId);
+      location.setCategoryId(data.categoryId);
       this.updateLocalStorage();
     }
   }
