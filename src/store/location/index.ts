@@ -54,8 +54,8 @@ export class LocationStore {
       console.warn(`mock coordinates for place ${this.placeId}`);
 
       return {
-        lat: Math.floor(Math.random() * 60) + 59,
-        lng: Math.floor(Math.random() * 31) + 30,
+        lat: 59,
+        lng: (Math.random() * 33) + 30,
       };
     } else {
       return undefined;
