@@ -1,10 +1,17 @@
 import React from "react";
+import GoogleMapReact from 'google-map-react';
 import { Grid, TextField, Button, MenuItem } from "@material-ui/core";
+import { MapMarker } from "./map/marker";
+import { PlaceAutoComplete } from "./place/autocomplete";
 
 export interface ILocationEditorProps {
-  name: {
-    value: string,
-    onChange: (name: string) => void,
+  place: {
+    name: string,
+    onChange: (
+      name: string,
+      placeId: string,
+    ) => void,
+    onClear: () => void,
   },
   categoryList: {
     data: Array<{ name: string, id: string }>,
@@ -15,27 +22,24 @@ export interface ILocationEditorProps {
 }
 
 export const LocationEditor: React.FC<ILocationEditorProps> = ({
-  name,
+  place,
   categoryList,
   onSave,
 }) => {
   return (
     <Grid container spacing={4}>
-      <Grid item xs={12} sm={8} md={4} lg={3} xl={2}>
-        <TextField
-          value={name.value}
-          onChange={(e) => name.onChange(e.target.value)}
-          label="Location Name"
-          fullWidth
-          variant="outlined"
-          margin="dense"
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+        <PlaceAutoComplete
+          value={place.name}
+          onChange={place.onChange}
+          onClear={place.onClear}
         />
       </Grid>
-      <Grid item xs={12} sm={8} md={4} lg={3} xl={2}>
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
         <TextField
           value={categoryList.selectedCategoryId || ''}
           onChange={(e) => categoryList.onChange(e.target.value)}
-          label="Location Name"
+          label="Location Category"
           fullWidth
           variant="outlined"
           margin="dense"
@@ -54,6 +58,17 @@ export const LocationEditor: React.FC<ILocationEditorProps> = ({
             )
           }
         </TextField>
+      </Grid>
+      <Grid item xs={12} lg={6} xl={8} style={{ height: 500 }}>
+        <GoogleMapReact
+          center={{
+            lat: 59.95,
+            lng: 30.33,
+          }}
+          defaultZoom={15}
+        >
+          <MapMarker lat={59.95} lng={30.33} />
+        </GoogleMapReact>
       </Grid>
       <Grid item container alignContent="center" xs={2}>
         <Grid item>

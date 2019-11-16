@@ -70,14 +70,17 @@ export class LocationsManagerStore {
   @action
   updateLocation = (
     id: string,
-    name: string,
+    data: {
+      name: string,
+      placeId: string,
+    }
   ) => {
     const location = this.findLocation(id);
 
     if (!location) {
       throw new Error(`Location with id ${id} can't be found`);
     } else {
-      location.setName(name);
+      location.setPlace(data.name, data.placeId);
       this.updateLocalStorage();
     }
   }

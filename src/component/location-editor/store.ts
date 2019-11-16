@@ -16,7 +16,10 @@ export class LocationEditorStore {
     if (this.templateLocation) {
       this.store.locationsManager.updateLocation(
         this.templateLocation.id,
-        this.location.name,
+        {
+          name: this.location.name,
+          placeId: this.location.placeId as string,
+        },
       );
     } else {
       this.store.locationsManager.addLocation(this.location);
@@ -28,17 +31,18 @@ export class LocationEditorStore {
   @computed
   get props(): ILocationEditorProps {
     return {
-      name: this.name,
+      place: this.place,
       categoryList: this.categoryList,
       onSave: this.save,
     };
   }
 
   @computed
-  get name() {
+  get place() {
     return {
-      value: this.location.name,
-      onChange: this.location.setName,
+      name: this.location.name,
+      onChange: this.location.setPlace,
+      onClear: this.location.clearPlace,
     };
   }
 
